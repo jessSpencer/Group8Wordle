@@ -9,7 +9,6 @@ import random
 import enchant
 # this is bringing in the dictionary
 d = enchant.Dict("en_US")
-
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 
