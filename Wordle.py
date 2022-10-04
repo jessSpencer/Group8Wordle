@@ -18,9 +18,9 @@ def wordle():
 
     def enter_action(s):
         # this is checking to make sure they entered in a 5 letter word
-        if len(str(gw.get_current_row)) == 5:
+        if len(str(gw.get_current_row())) == 5:
             # this is checking to make sure the word entered is valid
-            if (d.check(gw.get_current_row)) == True:
+            if (d.check(gw.get_current_row())) == True:
                 print("Nice guess!")
             # this is the response they get if they enter in a word that is not valie
             else:
@@ -33,10 +33,17 @@ def wordle():
         while j < N_COLS:
             if gw.get_square_letter(gw.get_current_row(), j).lower() not in randomWord:
                 gw.set_square_color(gw.get_current_row(), j,"#999999")
+                # Sets the keyboard color grey if not in the word
+                gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#999999")
             elif gw.get_square_letter(gw.get_current_row(), j).lower() == randomWord[j]:
                 gw.set_square_color(gw.get_current_row(), j,"#66BB66")
+                # Sets the keyboard color to green if in the word and in the right place
+                gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#66BB66")
             else:
                 gw.set_square_color(gw.get_current_row(), j,"#CCBB66" )
+                # Sets the keyboard color to yellow if in the word, but not in the right place
+                gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#CCBB66")
+                
             j+=1
         gw.set_current_row(gw.get_current_row()+1)
         if (gw.get_current_row()==6):
