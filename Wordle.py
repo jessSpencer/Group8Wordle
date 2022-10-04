@@ -15,35 +15,47 @@ d = enchant.Dict("en_US")
 
 
 def wordle():
-	def enter_action(s):
-		j = 0
-		while j < N_COLS:
-			if gw.get_square_letter(gw.get_current_row(), j).lower() not in randomWord:
-				gw.set_square_color(gw.get_current_row(), j,"#999999")
-			elif gw.get_square_letter(gw.get_current_row(), j).lower() == randomWord[j]:
-				gw.set_square_color(gw.get_current_row(), j,"#66BB66")
-			else:
-				gw.set_square_color(gw.get_current_row(), j,"#CCBB66" )
-			j+=1
-		gw.set_current_row(gw.get_current_row()+1)
-		if (gw.get_current_row()==6):
-			quit()		
-	
-	gw = WordleGWindow()
-	randomWord = random.choice(FIVE_LETTER_WORDS)
-	for index, char in enumerate(randomWord):
-		gw.set_square_letter(0, index, char)
-	
-	gw.add_enter_listener(enter_action)
-	gw.set_current_row(gw.get_current_row()+1)
+
+    def enter_action(s):
+        # this is checking to make sure they entered in a 5 letter word
+        if len(str(gw.get_current_row)) == 5:
+            # this is checking to make sure the word entered is valid
+            if (d.check(gw.get_current_row)) == True:
+                print("Nice guess!")
+            # this is the response they get if they enter in a word that is not valie
+            else:
+                print("I'm sorry, please enter in an actual word")
+            # if the word is less or more than 5 letters they get this response
+        else:
+            print("Please enter a 5 letter word")
+
+        j = 0
+        while j < N_COLS:
+            if gw.get_square_letter(gw.get_current_row(), j).lower() not in randomWord:
+                gw.set_square_color(gw.get_current_row(), j,"#999999")
+            elif gw.get_square_letter(gw.get_current_row(), j).lower() == randomWord[j]:
+                gw.set_square_color(gw.get_current_row(), j,"#66BB66")
+            else:
+                gw.set_square_color(gw.get_current_row(), j,"#CCBB66" )
+            j+=1
+        gw.set_current_row(gw.get_current_row()+1)
+        if (gw.get_current_row()==6):
+            quit()		
+    
+    gw = WordleGWindow()
+    randomWord = random.choice(FIVE_LETTER_WORDS)
+    for index, char in enumerate(randomWord):
+        gw.set_square_letter(0, index, char)
+    
+    gw.add_enter_listener(enter_action)
+    
+    gw.set_current_row(gw.get_current_row()+1)
+
+    
 
 # Startup code
 
 if __name__ == "__main__":
-<<<<<<< HEAD
     wordle()
 
 
-=======
-	wordle()
->>>>>>> e2bbd3a0babffc9f882a88076d58eee44795e1b8
