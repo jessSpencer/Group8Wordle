@@ -27,6 +27,9 @@ def wordle():
         while j < N_COLS:
             guess += gw.get_square_letter(gw.get_current_row(), j).lower()
             j += 1
+
+        # Have to remove spaces from the word
+        guess = guess.strip()
         
         # Checks to make sure they entered a five letter english word
         if len(guess) == 5:
@@ -57,7 +60,10 @@ def wordle():
                 gw.set_current_row(gw.get_current_row()+1)
             else:
                 gw.show_message("Not a Word 😕")
+        else:
+            gw.show_message("Please enter a 5 letter word") 
 
+        
     
     gw = WordleGWindow()
     randomWord = random.choice(FIVE_LETTER_WORDS)
