@@ -53,11 +53,11 @@ def wordle():
                 gw.set_square_color(gw.get_current_row(), index,"#CCBB66" )
                 gw.set_key_color(char.upper(), "#CCBB66")
 
-        # If they are on the last row, and the guess does 
+        # If they are on the last row, and the guess does not equal the random word, they lost!
         if (gw.get_current_row()==5 and guess != randomWord):
             print("Entered Break Condition")
             gw.show_message(f"Sorry, the word was '{randomWord}'.")
-        # Checks if the guess is equal to the random word
+        # If the guess is equal to the random word, they won!
         elif (guess == randomWord):
             gw.show_message(f"Congratulations! You guessed the word in {gw.get_current_row() + 1} tries!")
 
