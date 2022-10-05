@@ -18,41 +18,49 @@ d = enchant.Dict("en_US")
 def wordle():
 
     def enter_action(s):
-        print(gw.get_current_row())
-        # this is checking to make sure they entered in a 5 letter word
-        # currently evaluating to false every time
-        if len(str(gw.get_current_row())) == 5:
-            # this is checking to make sure the word entered is valid
-            if (d.check(gw.get_current_row())) == True:
+        print(randomWord)
+        # End the game if they have filled out all the rows
+        if (gw.get_current_row() > 5):
+            quit()
+        # compiles the guess from the letters in each square
+        guess = ""
+        j = 0
+        while j < N_COLS:
+            guess += gw.get_square_letter(gw.get_current_row(), j).lower()
+            j += 1
+        
+        # Checks to make sure they entered a five letter english word
+        if len(guess) == 5:
+            if (d.check(guess)) == True:
                 gw.show_message("Nice Guess")
-            # this is the response they get if they enter in a word that is not valie
             else:
-                gw.show_message("I'm sorry, please enter in an actual word")
-            # if the word is less or more than 5 letters they get this response
+                gw.show_message("Not a Word 😕")
         else:
             print("Please enter a 5 letter word") 
 
-        j = 0
-        while j < N_COLS:
-            if gw.get_square_letter(gw.get_current_row(), j).lower() not in randomWord:
-                gw.set_square_color(gw.get_current_row(), j,"#999999")
-                # Sets the keyboard color grey if not in the word
-                gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#999999")
-            elif gw.get_square_letter(gw.get_current_row(), j).lower() == randomWord[j]:
-                gw.set_square_color(gw.get_current_row(), j,"#66BB66")
-                # Sets the keyboard color to green if in the word and in the right place
-                gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#66BB66")
+        # Iterates through each letter in the guess. Sets the square and keyboard to the appropriate color.
+        for index, char in enumerate(guess):
+            # Sets the keyboard color grey if not in the word
+            if char not in randomWord:
+                gw.set_square_color(gw.get_current_row(), index,"#999999")
+                gw.set_key_color(char.upper(), "#999999")
+            # Sets the keyboard color to green if in the word and in the right place
+            elif char == randomWord[index]:
+                gw.set_square_color(gw.get_current_row(), index,"#66BB66")
+                gw.set_key_color(char.upper(), "#66BB66")
+            # Sets the keyboard color to yellow if in the word, but not in the right place
             else:
-                gw.set_square_color(gw.get_current_row(), j,"#CCBB66" )
-                # Sets the keyboard color to yellow if in the word, but not in the right place
-                gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#CCBB66")
-                
-            j+=1
-        if (gw.get_current_row()==5):
+                gw.set_square_color(gw.get_current_row(), index,"#CCBB66" )
+                gw.set_key_color(char.upper(), "#CCBB66")
+
+        # If they are on the last row, and the guess does 
+        if (gw.get_current_row()==5 and guess != randomWord):
             print("Entered Break Condition")
-            gw.show_message(f"Sorry, the word was {randomWord}.")
-            time.sleep(5)
-            quit()		
+            gw.show_message(f"Sorry, the word was '{randomWord}'.")
+        # Checks if the guess is equal to the random word
+        elif (guess == randomWord):
+            gw.show_message(f"Congratulations! You guessed the word in {gw.get_current_row() + 1} tries!")
+
         gw.set_current_row(gw.get_current_row()+1)
     
     gw = WordleGWindow()
