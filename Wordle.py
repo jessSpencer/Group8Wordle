@@ -9,6 +9,7 @@ import random
 from WordleDictionary import FIVE_LETTER_WORDS
 from WordleGraphics import WordleGWindow, N_COLS, N_ROWS
 import enchant
+import time
 
 # this is bringing in the dictionary
 d = enchant.Dict("en_US")
@@ -17,17 +18,19 @@ d = enchant.Dict("en_US")
 def wordle():
 
     def enter_action(s):
+        print(gw.get_current_row())
         # this is checking to make sure they entered in a 5 letter word
+        # currently evaluating to false every time
         if len(str(gw.get_current_row())) == 5:
             # this is checking to make sure the word entered is valid
             if (d.check(gw.get_current_row())) == True:
-                print("Nice guess!")
+                gw.show_message("Nice Guess")
             # this is the response they get if they enter in a word that is not valie
             else:
-                print("I'm sorry, please enter in an actual word")
+                gw.show_message("I'm sorry, please enter in an actual word")
             # if the word is less or more than 5 letters they get this response
         else:
-            print("Please enter a 5 letter word")
+            print("Please enter a 5 letter word") 
 
         j = 0
         while j < N_COLS:
@@ -45,18 +48,22 @@ def wordle():
                 gw.set_key_color(gw.get_square_letter(gw.get_current_row(), j), "#CCBB66")
                 
             j+=1
-        gw.set_current_row(gw.get_current_row()+1)
-        if (gw.get_current_row()==6):
+        if (gw.get_current_row()==5):
+            print("Entered Break Condition")
+            gw.show_message(f"Sorry, the word was {randomWord}.")
+            time.sleep(5)
             quit()		
+        gw.set_current_row(gw.get_current_row()+1)
     
     gw = WordleGWindow()
     randomWord = random.choice(FIVE_LETTER_WORDS)
-    for index, char in enumerate(randomWord):
-        gw.set_square_letter(0, index, char)
+    # We probably want this to not happen evantually?
+    # for index, char in enumerate(randomWord):
+    #     gw.set_square_letter(0, index, char)
     
     gw.add_enter_listener(enter_action)
     
-    gw.set_current_row(gw.get_current_row()+1)
+    # gw.set_current_row(gw.get_current_row()+1)
 
     
 
