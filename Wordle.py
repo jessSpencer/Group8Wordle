@@ -32,6 +32,7 @@ def wordle():
     # Have to remove spaces from the word
     guess = guess.strip()
     tempWord = randomWord
+    gw.show_message(tempWord)
     # Checks to make sure they entered a five letter english word
     if len(guess) == 5:
       if (d.check(guess)) == True:
@@ -51,7 +52,8 @@ def wordle():
           # Sets rest of letters to grey
           elif gw.get_square_color(gw.get_current_row(), index) not in ["CCBB66","#66BB66"]:
             gw.set_square_color(gw.get_current_row(), index,"#999999")
-            gw.set_key_color(char.upper(), "#999999")
+            if gw.get_key_color(char.upper()) not in ["#66BB66", "#CCBB66"]:
+              gw.set_key_color(char.upper(), "#999999")
         # If they are on the last row,and the guess does not equal the random word, they lost!
         if (gw.get_current_row()==5 and guess != randomWord):
           print("Entered Break Condition")
